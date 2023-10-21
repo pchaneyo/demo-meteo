@@ -1,0 +1,75 @@
+<?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<module>
+    <function name="__init__">
+        <block>
+            <call function="update"/>
+        </block>
+    </function>
+
+    <function name="update">
+        <block>
+            <query name="q_places">
+                <string name="sql" literal="">
+                    select * from place
+                </string>
+                <string name="fields" literal="">
+                    place_id:number;
+                    place_name:string;
+                    place_lon:number;
+                    place_lat:number;
+                    place_last_update:datetime;
+                    place_description:string;
+                    place_temp:string;
+                    place_icon_meta:object;
+                </string>
+            </query>
+            <object name="result_places"/>
+            <runquery name="q_places" result="result_places"/>
+
+            <call object="result_places.resultset" method="foreach">
+                <function>
+                    <object name="place"/>
+                    <block>
+                        <print>"id: " + place.place_id + ", name: " + place.place_name + ", lon: " + place.place_lon</print>
+
+                        <object name="resp"/>
+
+                        <fetch method="get" returns="resp">
+                            <string name="origin">"https://api.openweathermap.org"</string>
+                            <string name="pathname">"/data/2.5/weather"</string>
+                            <object name="search">
+                                <string name="lon">place.place_lon</string>
+                                <string name="lat">place.place_lat</string>
+                                <string name="units">"metric"</string>
+                                <string name="lang">"fr"</string>
+                                <string name="APPID">env("OPENWEATHER_API_KEY")</string>
+                            </object>
+                        </fetch>
+                        <if>
+                            <condition>resp.ok</condition>
+                            <then>
+                                <set name="place.place_last_update">now()</set>
+                                <set name="place.place_description">resp.json.weather.at(0).description </set>
+                                <set name="place.place_temp">resp.json.main.temp + "°C" </set>
+                                <set name="place.place_icon_meta">
+                                    <string name="uri">
+                                        'https://openweathermap.org/img/w/' +resp.json.weather.at(0).icon + '.png'
+                                    </string>
+                                </set>
+                                <db.update table="place">
+                                    <object>place</object>
+                                </db.update>
+                            </then>
+                            <else>
+                                <print>"KO - resp.status: " + resp.status</print>
+                            </else>
+                        </if>
+
+                    </block>
+                </function>
+            </call>
+
+        </block>
+    </function>
+
+</module>

@@ -1,0 +1,13 @@
+{
+  "name": "cyk-meteo",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "cyk start",
+    "stop": "cyk stop",
+    "dev": "onchange module/*.xml -- cyk module u module/*.xml"
+  },
+  "devDependencies": {
+    "@cyklang/cli": "^0.9.0",
+    "onchange": "^7.1.0"
+  }
+}

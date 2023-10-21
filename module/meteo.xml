@@ -1,0 +1,93 @@
+<?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<module>
+    <function name="__command__">
+        <string name="command"/>
+        <block>
+            <call function="show"/>
+        </block>
+    </function>
+
+    <function name="show">
+        <block>
+            <datetime name="last_update"/>
+
+            <toolbar name="meteo_toolbar">
+                <button icon="calendar">
+                    <string name="label" literal="">
+                        string(last_update)
+                    </string>
+                </button>
+            </toolbar>
+            <function name="query_place" returns="result: object">
+                <block>
+                    <!-- <query name="q_place">
+                        <string name="sql" literal="">select place.*,
+                            '{"uri":"' || place.place_icon_path || '.png"}' as place_icon_meta
+                            from place</string>
+                        <string name="fields" literal="">
+                            place_id:number:key;
+                            place_name:string;
+                            place_icon_meta:object;
+                            place_icon_path:string;
+                            place_description:string;
+                            place_last_update:datetime;
+                            place_temp:string;
+                        </string>
+                    </query>
+                    <runquery name="q_place" result="result"/> -->
+                    <db.select table="place" result="result">
+                    </db.select>
+                    <datetime name="min"/>
+                    <datetime name="max"/>
+                    <call object="result.place" method="foreach">
+                        <function>
+                            <object name="place"/>
+                            <block>
+                                <print> "id: " + place.place_id + ", " + place.place_last_update </print>
+                                <if>
+                                    <condition><![CDATA[ min == undefined || min > place.place_last_update]]> </condition>
+                                    <then>
+                                        <set name="min">place.place_last_update</set>
+                                    </then>
+                                </if>
+                                <if>
+                                    <condition><![CDATA[ max == undefined || max < place.place_last_update]]> </condition>
+                                    <then>
+                                        <set name="max">place.place_last_update</set>
+                                    </then>
+                                </if>
+                            </block>
+                        </function>
+                    </call>
+                    <set name="last_update">min</set>
+                    <print>"min: " + min</print> 
+                    <print>"max: " + max</print>
+                    <print>"last_update: " + last_update</print>
+                </block>
+            </function>
+ 
+            <object name="tsoptions">
+                <function name="query">query_place</function>
+                <string name="entity">"place"</string>
+                <object name="columns">
+                    <string>"place_icon_meta;Icone;qimg"</string>
+                    <string>"place_temp;Tempé."</string>
+                    <string>"place_name;Lieu"</string>
+                    <string>"place_description;Temps"</string>
+                </object>
+            </object>
+
+            <form name="form">
+                <input model="last_update" label="last_update">
+                    <string name="visible" literal="">true</string>
+                </input>
+                <tableview model="tsoptions" title="Lieux" template="expand"/>
+            </form>
+
+            <showform> 
+                <toolbar>meteo_toolbar</toolbar>
+                <form>form</form>
+            </showform>
+        </block>
+    </function>    
+</module>
