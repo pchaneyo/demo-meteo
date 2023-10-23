@@ -66,4 +66,14 @@
         <number name="place_lat">38.91871696301927 </number>
         <number name="place_lon">121.64544333599962</number>
     </call>
+    <call function="insert_place">
+        <string name="place_name">"Sainte-Marie, Grande Montée"</string>
+        <number name="place_lat">-20.926580361416796</number>
+        <number name="place_lon">55.521687793772244</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Suisse, Morges"</string>
+        <number name="place_lat">45.51127</number>
+        <number name="place_lon">6.49854</number>
+    </call>
 </module>

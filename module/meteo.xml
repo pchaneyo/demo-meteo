@@ -20,21 +20,16 @@
             </toolbar>
             <function name="query_place" returns="result: object">
                 <block>
-                    <!-- <query name="q_place">
-                        <string name="sql" literal="">select place.*,
-                            '{"uri":"' || place.place_icon_path || '.png"}' as place_icon_meta
-                            from place</string>
-                        <string name="fields" literal="">
-                            place_id:number:key;
-                            place_name:string;
-                            place_icon_meta:object;
-                            place_icon_path:string;
-                            place_description:string;
-                            place_last_update:datetime;
-                            place_temp:string;
+
+                    <query name="q_place">
+                        <string name="sql" literal="">select place.*
+                            from place
                         </string>
                     </query>
-                    <runquery name="q_place" result="result"/> -->
+                    <runquery name="q_place" result="result"/>
+                    <print>"apres runquery ======"</print>
+                    <print>"string(result.resultset): " +string(result.resultset)</print> 
+
                     <db.select table="place" result="result">
                     </db.select>
                     <datetime name="min"/>
@@ -79,7 +74,7 @@
 
             <form name="form">
                 <input model="last_update" label="last_update">
-                    <string name="visible" literal="">true</string>
+                    <string name="visible" literal="">false</string>
                 </input>
                 <tableview model="tsoptions" title="Lieux" template="expand"/>
             </form>

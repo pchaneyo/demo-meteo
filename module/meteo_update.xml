@@ -12,16 +12,6 @@
                 <string name="sql" literal="">
                     select * from place
                 </string>
-                <string name="fields" literal="">
-                    place_id:number;
-                    place_name:string;
-                    place_lon:number;
-                    place_lat:number;
-                    place_last_update:datetime;
-                    place_description:string;
-                    place_temp:string;
-                    place_icon_meta:object;
-                </string>
             </query>
             <object name="result_places"/>
             <runquery name="q_places" result="result_places"/>
