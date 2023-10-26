@@ -39,6 +39,12 @@
                         </string>
                     </set>
                     <set name="place.place_location_name">resp.json.name</set>
+                    <if>
+                        <condition>place.place_name ==  undefined || place.place_name == ''</condition>
+                        <then>
+                            <set name="place.place_name">resp.json.name</set>
+                        </then>
+                    </if>
                     <!-- <print>string(resp.json)</print> -->
 
                 </then>

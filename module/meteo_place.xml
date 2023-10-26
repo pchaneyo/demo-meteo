@@ -17,10 +17,33 @@
   <function name="__init__">
     <block>
       <localstorage name="meteo_places" read_into="places" />
+      <print>"meteo_place.__init__ places.length()=" + places.length()</print>
+      <if>
+        <condition>places.length() == 0</condition> 
+        <then>
+          <object name="place" type="Place"/>
+          <set name="place.place_id">1</set>
+          <object name="location"/>
+          <geolocation into="location"/>
+          <print>"location: " + string(location)</print>
+          <if>
+            <condition>location.ok</condition>
+            <then>
+              <set name="place.place_lat">location.latitude</set>
+              <set name="place.place_lon">location.longitude</set>
+              <call object="places" method="push">
+                <object>place</object>
+              </call>
+              <localstorage name="meteo_places" write_from="places" />
+            </then>
+          </if>
+          
+        </then>
+      </if>
     </block>
   </function>
 
-  <function name="edit_place">
+  <function name="edit_place" returns="valid: boolean">
     <object name="place"/>
     <block>
       <dialog name="place_dialog">
@@ -68,6 +91,7 @@
 
   <function name="query_places" returns="result: object">
     <block>
+      <localstorage name="meteo_places" read_into="places" />
       <set name="result">
         <object name="places">places</object>
         <object name="meta">
@@ -158,7 +182,7 @@
         </object>
         <object name="columns">
           <string>"place_icon_meta;Icon;qimg"</string>
-          <string>"place_temp;Tempé."</string>
+          <string>"place_temp;Temp"</string>
           <string>"place_name;Name"</string>
           <string>"place_description;Weather"</string>
           <string>"place_id;ID"</string>
@@ -167,7 +191,7 @@
         </object>
       </object>
 
-      <form name="form">
+      <form name="form" title="Weather">
         <tableview model="tsoptions" name="main_tableview" title="Lieux" template="expand"/>
       </form>
 

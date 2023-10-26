@@ -1,0 +1,21 @@
+<?xml-model href="https://www.cyklang.net/schema/cyklang.xsd"?>
+<module>
+    <map name="fr">
+        <key>Weather</key><value>Météo</value>
+        <key>Geolocation</key><value>Géolocalisation</value>
+        <key>ID</key><value>ID</value>
+        <key>Latitude</key><value>Latitude</value>
+        <key>Longitude</key><value>Longitude</value>
+        <key>Name</key><value>Nom</value>
+        <key>Icon</key><value>Icône</value>
+        <key>Temp</key><value>Temp</value>
+        <key>Location</key><value>Lieu</value>
+        <key>Updated</key><value>Mis à jour</value>
+        <key>add</key><value>ajouter</value>
+        <key>refresh</key><value>rafraîchir</value>
+        <key>edit</key><value>Modifier</value>
+        <key>delete</key><value>Supprimer</value>
+        <key>Close</key><value>Fermer</value>
+    </map>
+</module>
+        
