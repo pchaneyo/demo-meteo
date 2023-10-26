@@ -1,0 +1,43 @@
+<?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<!-- API /api/module/meteo_api/get -->
+<module>
+    <module_object name="m_update"/>
+
+    <function name="__init__">
+        <block>
+            <set name="m_update" module="meteo_update"/>
+        </block>
+    </function>
+
+    <function name="update_places_weather" returns="result: object">
+        <string name="placesXml"/>
+        <block>
+            <print>"placesXml: " + placesXml</print>
+            <object name="places"/>
+            <set name="places">object(placesXml)</set>
+            <set name="result">
+
+            </set>
+            <call object="places" method="foreach">
+                <function>
+                    <object name="place"/>
+                    <block>
+                        <!-- <object name="place2">newDBRow("place")</object>
+                        <set name="place2.place_id">place.place_id</set>
+                        <set name="place2.place_name">place.place_name</set>
+                        <set name="place2.place_lat">place.place_lat</set>
+                        <set name="place2.place_lon">place.place_lon</set> -->
+
+                        <call object="m_update" method="update_place">
+                            <object name="place">place</object>
+                        </call>
+
+                        <call object="result" method="push">
+                            <object>place</object>
+                        </call>
+                    </block>
+                </function>
+            </call>
+        </block>
+    </function>
+</module>

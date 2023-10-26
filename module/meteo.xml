@@ -1,13 +1,48 @@
 <?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <module>
-    <function name="__command__">
-        <string name="command"/>
+    <module_object name="m_place"/>
+    <!-- <module_object name="m_current"/> -->
+    <!--
+    constructor __init__
+    -->
+
+    <function name="__init__">
         <block>
-            <call function="show"/>
+            <!-- setMenu-->
+            <setmenu>
+                <object>
+                    <!-- title;icon;caption;path -->
+                    <!-- <string literal="">Weat\her;sunny;Current Weather;/run/meteo</string> -->
+                    <!-- <string literal="">Places;public;Places management;/run/meteo</string> -->
+                    <!-- <string literal="">Current weather;sunny;Current weather;/run/meteo/current</string> -->
+                </object>
+            </setmenu>
+            <set name="m_place" module="meteo_place"/>
+            <!-- <set name="m_current" module="meteo_current"/> -->
         </block>
     </function>
 
-    <function name="show">
+    <function name="__command__">
+        <string name="command"/>
+        <block>
+            <print>"command: " + command</print>
+            <if>
+                <condition>command == 'place'</condition>
+                <then>
+                    <call object="m_place" method="manage_place"/>
+                </then>
+                <condition>command == 'current'</condition>
+                <then>
+                    <call object="m_current" method="show_current"/>
+                </then>
+                <else>
+                    <call object="m_place" method="manage_place"/>
+                </else>
+            </if>
+        </block>
+    </function>
+
+    <function name="show_weather">
         <block>
             <datetime name="last_update"/>
 
@@ -28,7 +63,7 @@
                     </query>
                     <runquery name="q_place" result="result"/>
                     <print>"apres runquery ======"</print>
-                    <print>"string(result.resultset): " +string(result.resultset)</print> 
+                    <print>"string(result.resultset): " +string(result.resultset)</print>
 
                     <db.select table="place" result="result">
                     </db.select>
@@ -40,13 +75,13 @@
                             <block>
                                 <print> "id: " + place.place_id + ", " + place.place_last_update </print>
                                 <if>
-                                    <condition><![CDATA[ min == undefined || min > place.place_last_update]]> </condition>
+                                    <condition><![CDATA[ min == undefined || min > place.place_last_update]]></condition>
                                     <then>
                                         <set name="min">place.place_last_update</set>
                                     </then>
                                 </if>
                                 <if>
-                                    <condition><![CDATA[ max == undefined || max < place.place_last_update]]> </condition>
+                                    <condition><![CDATA[ max == undefined || max < place.place_last_update]]></condition>
                                     <then>
                                         <set name="max">place.place_last_update</set>
                                     </then>
@@ -55,12 +90,12 @@
                         </function>
                     </call>
                     <set name="last_update">min</set>
-                    <print>"min: " + min</print> 
+                    <print>"min: " + min</print>
                     <print>"max: " + max</print>
                     <print>"last_update: " + last_update</print>
                 </block>
             </function>
- 
+
             <object name="tsoptions">
                 <function name="query">query_place</function>
                 <string name="entity">"place"</string>
@@ -79,10 +114,10 @@
                 <tableview model="tsoptions" title="Lieux" template="expand"/>
             </form>
 
-            <showform> 
+            <showform>
                 <toolbar>meteo_toolbar</toolbar>
                 <form>form</form>
             </showform>
         </block>
-    </function>    
+    </function>
 </module>

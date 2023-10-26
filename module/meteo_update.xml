@@ -2,11 +2,55 @@
 <module>
     <function name="__init__">
         <block>
-            <call function="update"/>
+            <!-- <call function="update"/> -->
         </block>
     </function>
 
-    <function name="update">
+    <function name="update_place" returns="ok: boolean">
+        <object name="place"/>
+        <block>
+
+            <!-- <print>"id: " + place.place_id + ", name: " + place.place_name + ", lon: " + place.place_lon</print> -->
+            <print>"update_place() place: " + string(place)</print>
+            <object name="resp"/>
+
+            <fetch method="get" returns="resp">
+                <string name="origin">"https://api.openweathermap.org"</string>
+                <string name="pathname">"/data/2.5/weather"</string>
+                <object name="search">
+                    <string name="lon">place.place_lon</string>
+                    <string name="lat">place.place_lat</string>
+                    <string name="units">"metric"</string>
+                    <string name="lang">"fr"</string>
+                    <string name="APPID">env("OPENWEATHER_API_KEY")</string>
+                </object>
+            </fetch>
+            <set name="ok">resp.ok</set>
+
+            <if>
+                <condition>resp.ok</condition>
+                <then>
+                    <set name="place.place_last_update">now()</set>
+                    <set name="place.place_description">resp.json.weather.at(0).description </set>
+                    <set name="place.place_temp">resp.json.main.temp + "°C" </set>
+                    <set name="place.place_icon_meta">
+                        <string name="uri">
+                            'https://openweathermap.org/img/w/' +resp.json.weather.at(0).icon + '.png'
+                        </string>
+                    </set>
+                    <set name="place.place_location_name">resp.json.name</set>
+                    <!-- <print>string(resp.json)</print> -->
+
+                </then>
+                <else>
+                    <print>"KO - resp.status: " + resp.status</print>
+                </else>
+            </if>
+        </block>
+
+    </function>
+
+    <function name="update_place_table">
         <block>
             <query name="q_places">
                 <string name="sql" literal="">
@@ -20,41 +64,18 @@
                 <function>
                     <object name="place"/>
                     <block>
-                        <print>"id: " + place.place_id + ", name: " + place.place_name + ", lon: " + place.place_lon</print>
-
-                        <object name="resp"/>
-
-                        <fetch method="get" returns="resp">
-                            <string name="origin">"https://api.openweathermap.org"</string>
-                            <string name="pathname">"/data/2.5/weather"</string>
-                            <object name="search">
-                                <string name="lon">place.place_lon</string>
-                                <string name="lat">place.place_lat</string>
-                                <string name="units">"metric"</string>
-                                <string name="lang">"fr"</string>
-                                <string name="APPID">env("OPENWEATHER_API_KEY")</string>
-                            </object>
-                        </fetch>
+                        <boolean name="ok"/>
+                        <call function="update_place" returns="ok">
+                            <object name="place">place</object>
+                        </call>
                         <if>
-                            <condition>resp.ok</condition>
+                            <condition>ok</condition>
                             <then>
-                                <set name="place.place_last_update">now()</set>
-                                <set name="place.place_description">resp.json.weather.at(0).description </set>
-                                <set name="place.place_temp">resp.json.main.temp + "°C" </set>
-                                <set name="place.place_icon_meta">
-                                    <string name="uri">
-                                        'https://openweathermap.org/img/w/' +resp.json.weather.at(0).icon + '.png'
-                                    </string>
-                                </set>
                                 <db.update table="place">
                                     <object>place</object>
                                 </db.update>
                             </then>
-                            <else>
-                                <print>"KO - resp.status: " + resp.status</print>
-                            </else>
                         </if>
-
                     </block>
                 </function>
             </call>
