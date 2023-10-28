@@ -1,0 +1,80 @@
+<?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<module> 
+    <db.table name="place">
+        <number name="place_id" type="int" primary="" generated="by default"/>
+        <string name="place_name" type="varchar(255)" />
+        <number name="place_lon" type="numeric"/>
+        <number name="place_lat" type="numeric"/>
+        <datetime name="place_last_update" type="timestamp with time zone"/>
+        <string name="place_description" type="varchar(1024)"/>
+        <object name="place_icon_meta" type="jsonb"/>
+        <string name="place_temp" type="varchar(255)"/>
+        <string name="place_location_name" type="varchar(255)"/>
+    </db.table>
+
+    <function name="insert_place" returns="result: object">
+        <string name="place_name"/>
+        <number name="place_lon"/>
+        <number name="place_lat"/>
+        <block>
+            <object name="result_place"/>
+            <db.select table="place" result="result_place">
+                <string name="where">"place_name = '" + place_name + "'"</string>
+            </db.select>
+            <if>
+                <condition>result_place.place.length() == 0</condition>
+                <then>
+                    <db.insert table="place" returning_into="result">
+                        <object>
+                            <string name="place_name">place_name</string>
+                            <number name="place_lon">place_lon</number>
+                            <number name="place_lat">place_lat</number>
+                        </object>
+                    </db.insert>
+                    <print>"Place added: " + result.place_name + ", ID: " + result.place_id</print>
+                </then>
+            </if>
+        </block>
+    </function>
+
+    <call function="insert_place" >
+        <string name="place_name">"Paris 13e"</string>
+        <number name="place_lat">48.825654</number>
+        <number name="place_lon">2.356595</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Saint-Denis, La Bretagne"</string>
+        <number name="place_lat">-20.920936920782815</number>
+        <number name="place_lon">55.49209472199421</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Saint-Denis, Centre"</string>
+        <number name="place_lat">-20.885691</number>
+        <number name="place_lon">55.459991</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Sainte-Marie, La Réserve"</string>
+        <number name="place_lat">-20.89797122734377 </number>
+        <number name="place_lon">55.561115683365735</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Saint-Paul, Cambaie"</string>
+        <number name="place_lat">20.975203</number>
+        <number name="place_lon">55.303974</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Dalian, Huibang"</string>
+        <number name="place_lat">38.91871696301927 </number>
+        <number name="place_lon">121.64544333599962</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Sainte-Marie, Grande Montée"</string>
+        <number name="place_lat">-20.926580361416796</number>
+        <number name="place_lon">55.521687793772244</number>
+    </call>
+    <call function="insert_place">
+        <string name="place_name">"Suisse, Morges"</string>
+        <number name="place_lat">45.51127</number>
+        <number name="place_lon">6.49854</number>
+    </call>
+</module>

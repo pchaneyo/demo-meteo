@@ -1,18 +1,18 @@
 <?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <!-- API /api/module/meteo_api/get -->
 <module>
-    <module_object name="m_update"/>
+    <module_object name="m_provider"/>
 
     <function name="__init__">
         <block>
-            <set name="m_update" module="meteo_update"/>
+            <set name="m_provider" module="meteo_provider"/>
         </block>
     </function>
 
     <function name="update_places_weather" returns="result: object">
         <string name="placesXml"/>
         <block>
-            <print>"placesXml: " + placesXml</print>
+            <!-- <print>"placesXml: " + placesXml</print> -->
             <object name="places"/>
             <set name="places">object(placesXml)</set>
             <set name="result">
@@ -22,13 +22,7 @@
                 <function>
                     <object name="place"/>
                     <block>
-                        <!-- <object name="place2">newDBRow("place")</object>
-                        <set name="place2.place_id">place.place_id</set>
-                        <set name="place2.place_name">place.place_name</set>
-                        <set name="place2.place_lat">place.place_lat</set>
-                        <set name="place2.place_lon">place.place_lon</set> -->
-
-                        <call object="m_update" method="update_place">
+                        <call function="update_place">
                             <object name="place">place</object>
                         </call>
 
@@ -38,6 +32,73 @@
                     </block>
                 </function>
             </call>
+        </block>
+    </function>
+
+    <function name="update_place">
+        <object name="place"/>
+        <block>
+            <boolean name="provider_call_required">true</boolean>
+
+            <object name="result_q_place"/>
+            <query name="q_place">
+                <object name="params">
+                    <number name="place_lat"/>
+                    <number name="place_lon"/>
+                </object>
+                <string name="sql" literal="">
+                    select * from place where place_lat={{place_lat}} and place_lon={{place_lon}}
+                </string>
+            </query>
+            <runquery name="q_place" result="result_q_place">
+                <number name="place_lat">place.place_lat</number>
+                <number name="place_lon">place.place_lon</number>
+            </runquery>
+            <if>
+                <condition><![CDATA[ result_q_place.resultset.length() > 0 ]]></condition>
+                <then>
+                    <object name="record">result_q_place.resultset.at(0)</object>
+                    <datetime name="validity">
+                        datetimeadd("minute", 15, record.place_last_update)
+                    </datetime>
+                    <if>
+                        <condition><![CDATA[ validity > now()]]></condition>
+                        <then>
+                            <set name="provider_call_required">false</set>
+
+                            <set name="place.place_location_name">record.place_location_name</set>
+                            <set name="place.place_last_update">record.place_last_update</set>
+                            <set name="place.place_temp">record.place_temp</set>
+                            <set name="place.place_icon_meta">record.place_icon_meta</set>
+                            <if>
+                                <condition>place.place_name</condition>
+                                <then>
+                                    <set name="place.place_name">record.place_location_name</set>
+                                </then>
+                            </if>
+                        </then>
+                        <else>
+                            <db.delete table="place">
+                                <object>record</object>
+                            </db.delete>
+                        </else>
+                    </if>
+                </then>
+            </if>
+
+            <if>
+                <condition>provider_call_required</condition>
+                <then>
+                    <call object="m_provider" method="fetch_place">
+                        <object name="place">place</object>
+                    </call>
+                    <!-- <print>"before db.insert place: " + string(place)</print> -->
+                    <db.insert table="place">
+                        <object>place</object>
+                    </db.insert>
+                </then>
+            </if>
+
         </block>
     </function>
 </module>

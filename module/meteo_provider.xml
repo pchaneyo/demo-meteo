@@ -6,7 +6,7 @@
         </block>
     </function>
 
-    <function name="update_place" returns="ok: boolean">
+    <function name="fetch_place" returns="ok: boolean">
         <object name="place"/>
         <block>
 

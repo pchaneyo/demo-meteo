@@ -10,9 +10,11 @@
     <object type="object" name="place_icon_meta"/>
     <string name="place_temp"/>
     <string name="place_location_name"/>
+    <key name="place_id"/>
   </type>
 
   <object name="places"/>
+  <string name="last_update">now()</string>
 
   <function name="__init__">
     <block>
@@ -95,22 +97,10 @@
       <set name="result">
         <object name="places">places</object>
         <object name="meta">
-          <string name="places" literal=""><![CDATA[
-            <db.table name="place">
-              <number name="place_id" type="int" primary="" generated="by default"/>
-              <string name="place_name" type="varchar(255)" />
-              <number name="place_lon" type="numeric"/>
-              <number name="place_lat" type="numeric"/>
-              <datetime name="place_last_update" type="timestamp with time zone"/>
-              <string name="place_description" type="varchar(1024)"/>
-              <object name="place_icon_meta" type="jsonb"/>
-              <string name="place_temp" type="varchar(255)"/>
-              <string name="place_location_name" type="varchar(255)"/>
-          </db.table>
-            ]]>
-          </string>
+          <string name="places">meta("Place")</string>
         </object>
       </set>
+      <print>"meta(Place)=" + meta("Place")</print>
     </block>
   </function>
 
@@ -159,6 +149,9 @@
         <string name="placesXml">string(places)</string>
       </db.call>
       <localstorage name="meteo_places" write_from="places" />
+
+      <set name="last_update">now()</set>
+
       <sendevent>
         <string name="component">"main_tableview"</string>
         <string name="event">"reload"</string>
@@ -188,10 +181,15 @@
           <string>"place_id;ID"</string>
           <string>"place_location_name;Location"</string>
           <string>"place_last_update;Updated"</string>
-        </object>
+        </object> 
       </object>
 
       <form name="form" title="Weather">
+        <string name="comp_subtitle" literal="">last_update</string>
+        <input model="last_update">
+          <string name="visible" literal="">false</string>
+        </input>
+       
         <tableview model="tsoptions" name="main_tableview" title="Lieux" template="expand"/>
       </form>
 

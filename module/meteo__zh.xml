@@ -1,6 +1,6 @@
 <?xml-model href="https://www.cyklang.net/schema/cyklang.xsd"?>
 <module>
-    <map name="zh-CN">
+    <map name="zh">
         <key>Weather</key><value>天气</value>
         <key>Geolocation</key><value> 地理定位</value>
         <key>ID</key><value>标识符 </value>
