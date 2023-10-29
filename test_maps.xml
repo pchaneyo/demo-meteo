@@ -1,0 +1,99 @@
+<?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<module>
+
+    <module_object name="m_maps"/>
+
+    <function name="main">
+        <block>
+
+            <set name="m_maps" module="meteo_maps"/>
+            <object name="coord"/>
+            <call object="m_maps" method="geocode" returns="coord">
+                <string name="address">"Djibouti"</string>
+            </call>
+            <print>"coord: " + string(coord)</print>
+
+        </block>
+    </function>
+
+    <call function="main"/>
+<!-- 
+    <boolean name="ok">true</boolean>
+    <number name="status">200</number>
+    <object name="json">
+        <object name="results">
+            <object>
+                <object name="address_components">
+                    <object>
+                        <string name="long_name" literal="">Paris</string>
+                        <string name="short_name" literal="">Paris</string>
+                        <object name="types">
+                            <string literal="">locality</string>
+                            <string literal="">political</string>
+                        </object>
+                    </object>
+                    <object>
+                        <string name="long_name" literal="">Paris</string>
+                        <string name="short_name" literal="">Paris</string>
+                        <object name="types">
+                            <string literal="">administrative_area_level_2</string>
+                            <string literal="">political</string>
+                        </object>
+                    </object>
+                    <object>
+                        <string name="long_name" literal="">Île-de-France</string>
+                        <string name="short_name" literal="">IDF</string>
+                        <object name="types">
+                            <string literal="">administrative_area_level_1</string>
+                            <string literal="">political</string>
+                        </object>
+                    </object>
+                    <object>
+                        <string name="long_name" literal="">France</string>
+                        <string name="short_name" literal="">FR</string>
+                        <object name="types">
+                            <string literal="">country</string>
+                            <string literal="">political</string>
+                        </object>
+                    </object>
+                </object>
+                <string name="formatted_address" literal="">Paris, France</string>
+                <object name="geometry">
+                    <object name="bounds">
+                        <object name="northeast">
+                            <number name="lat">48.9021475</number>
+                            <number name="lng">2.4698509</number>
+                        </object>
+                        <object name="southwest">
+                            <number name="lat">48.8155622</number>
+                            <number name="lng">2.2242191</number>
+                        </object>
+                    </object>
+                    <object name="location">
+                        <number name="lat">48.856614</number>
+                        <number name="lng">2.3522219</number>
+                    </object>
+                    <string name="location_type" literal="">APPROXIMATE</string>
+                    <object name="viewport">
+                        <object name="northeast">
+                            <number name="lat">48.9021475</number>
+                            <number name="lng">2.4698509</number>
+                        </object>
+                        <object name="southwest">
+                            <number name="lat">48.8155622</number>
+                            <number name="lng">2.2242191</number>
+                        </object>
+                    </object>
+                </object>
+                <string name="place_id" literal="">ChIJD7fiBh9u5kcRYJSMaMOCCwQ</string>
+                <object name="types">
+                    <string literal="">locality</string>
+                    <string literal="">political</string>
+                </object>
+            </object>
+        </object>
+        <string name="status" literal="">OK</string>
+    </object> -->
+
+
+</module>

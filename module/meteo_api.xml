@@ -2,12 +2,16 @@
 <!-- API /api/module/meteo_api/get -->
 <module>
     <module_object name="m_provider"/>
+    <module_object name="m_maps"/>
 
     <function name="__init__">
         <block>
             <set name="m_provider" module="meteo_provider"/>
+            <set name="m_maps" module="meteo_maps"/>
         </block>
     </function>
+
+    <!-- function update_places_weather -->
 
     <function name="update_places_weather" returns="result: object">
         <string name="placesXml"/>
@@ -22,18 +26,26 @@
                 <function>
                     <object name="place"/>
                     <block>
-                        <call function="update_place">
-                            <object name="place">place</object>
-                        </call>
+                        <if>
+                            <condition><![CDATA[ place.place_lat && place.place_lon ]]> </condition>
+                            <then>
+                                <call function="update_place">
+                                    <object name="place">place</object>
+                                </call>
+        
+                                <call object="result" method="push">
+                                    <object>place</object>
+                                </call>
+                            </then>
+                        </if>
 
-                        <call object="result" method="push">
-                            <object>place</object>
-                        </call>
                     </block>
                 </function>
             </call>
         </block>
     </function>
+
+    <!-- function update_place -->
 
     <function name="update_place">
         <object name="place"/>
@@ -71,7 +83,7 @@
                             <set name="place.place_temp">record.place_temp</set>
                             <set name="place.place_icon_meta">record.place_icon_meta</set>
                             <if>
-                                <condition>place.place_name</condition>
+                                <condition> place.place_name == '' </condition>
                                 <then>
                                     <set name="place.place_name">record.place_location_name</set>
                                 </then>
@@ -101,4 +113,15 @@
 
         </block>
     </function>
+
+    <function name="geocode" returns="result: object">
+        <string name="address"/>
+        <block>
+            <call object="m_maps" method="geocode" returns="result">
+                <string name="address">address</string>
+            </call>
+            <print>"geocode of " + address + ", result: " +result</print>
+        </block>
+    </function>
+
 </module>

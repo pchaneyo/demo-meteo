@@ -16,6 +16,11 @@
         <key>edit</key><value>Modifier</value>
         <key>delete</key><value>Supprimer</value>
         <key>Close</key><value>Fermer</value>
+        <key>Address</key><value>Adresse</value>
+        <key>Add current location</key><value>Ajouter l'emplacement actuel</value>
+        <key>Lookup Google Maps</key><value>Rechercher dans Google Maps</value>
+        <key>Cancel</key><value>Annuler</value>
+        <key>Save</key><value>Enregistrer</value>
     </map>
 </module>
         

@@ -1,0 +1,38 @@
+<?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<module>
+
+    <function name="geocode" returns="result: object"> 
+        <string name="address"/>
+        <block>
+            <set name="result">
+                <boolean name="ok"/>
+                <number name="latitude"/>
+                <number name="longitude"/>
+            </set>
+            <object name="geo"/>
+            <fetch method="get" returns="geo">
+                <string name="origin">"https://maps.googleapis.com"</string>
+                <string name="pathname">"/maps/api/geocode/json"</string>
+                <object name="search">
+                    <string name="address">address</string>
+                    <string name="key">env("GOOGLE_MAPS_API_KEY")</string>
+                </object>
+            </fetch>
+            <if>
+                <condition><![CDATA[ geo.ok && geo.json.status == 'OK']]></condition>
+                <then>
+                    <set name="result.ok">true</set>
+                    <print>"coord found"</print>
+                    <set name="result.latitude">geo.json.results.at(0).geometry.location.lat</set>
+                    <set name="result.longitude">geo.json.results.at(0).geometry.location.lng</set>
+                </then>
+                <else>
+                    <set name="result.ok">false</set>
+                </else>
+            </if>
+
+            <!-- <print>"fetch_place_coord: " + string(place)</print> -->
+        </block>
+    </function>
+
+</module>

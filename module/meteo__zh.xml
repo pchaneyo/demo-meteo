@@ -16,5 +16,10 @@
         <key>edit</key><value>编辑</value>
         <key>delete</key><value>删除</value>
         <key>Close</key><value>关闭</value>
+        <key>Address</key><value>地址</value>
+        <key>Add current location</key><value>添加当前位置</value>
+        <key>Lookup Google Maps</key><value>在Google地图中搜索</value>
+        <key>Cancel</key><value>取消</value>
+        <key>Save</key><value>保存</value>
     </map>
 </module>

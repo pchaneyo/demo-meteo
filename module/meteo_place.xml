@@ -16,12 +16,14 @@
   <object name="places"/>
   <string name="last_update">now()</string>
 
+  <!-- function __init__ -->
+
   <function name="__init__">
     <block>
       <localstorage name="meteo_places" read_into="places" />
       <print>"meteo_place.__init__ places.length()=" + places.length()</print>
       <if>
-        <condition>places.length() == 0</condition> 
+        <condition>places.length() == 0</condition>
         <then>
           <object name="place" type="Place"/>
           <set name="place.place_id">1</set>
@@ -39,50 +41,130 @@
               <localstorage name="meteo_places" write_from="places" />
             </then>
           </if>
-          
+
         </then>
       </if>
     </block>
   </function>
 
+  <!-- function save_place -->
+
+  <function name="save_place">
+    <object name="place"/>
+    <block>
+      <if>
+        <condition>place.place_id == undefined</condition>
+        <then>
+          <number name="last_id">0</number>
+          <if>
+            <condition>places.length()</condition>
+            <then>
+              <set name="last_id">places.at(places.length() - 1).place_id</set>
+            </then>
+          </if>
+          <set name="place.place_id">last_id + 1</set>
+          <call object="places" method="push">
+            <object>place</object>
+          </call>
+        </then>
+      </if>
+
+      <localstorage name="meteo_places" write_from="places" />
+    </block>
+  </function>
+
+  <!-- function edit_place -->
+
   <function name="edit_place" returns="valid: boolean">
     <object name="place"/>
     <block>
-      <dialog name="place_dialog">
-        <input label="ID" model="place.place_id" readonly="true"/>
-        <input label="Latitude" model="place.place_lat"/>
-        <input label="Longitude" model="place.place_lon"/>
-        <input label="Name" model="place.place_name"/>
+      <set name="valid">true</set>
 
-        <button label="Geolocation">
+      <!-- dialog place_dialog -->
+
+      <dialog name="place_dialog">
+
+        <input label="ID" model="place.place_id" readonly="true">
+          <string name="visible" literal="">place.place_id !== undefined</string>
+        </input>
+
+        <!-- button Add current location -->
+
+        <button label="Add current location">
           <string name="visible" literal="">
-            place.place_lat == undefined || place.place_lat == 0 ||
-            place.place_lon == undefined || place.place_lon == 0
+            place.place_id == undefined
           </string>
           <function name="onclick">
             <block>
               <object name="location"/>
               <geolocation into="location"/>
-              <print>"location: " + string(location)</print>
+              <print>"geolocation: " + string(location)</print>
               <if>
                 <condition>location.ok</condition>
                 <then>
                   <set name="place.place_lat">location.latitude</set>
                   <set name="place.place_lon">location.longitude</set>
+                  <call function="save_place">
+                    <object name="place"> place </object>
+                  </call>
+                  <closedialog/>
                 </then>
               </if>
             </block>
           </function>
         </button>
 
-        <button label="Close" icon="cancel" if-dirty="">
+        <input label="Address" model="place.place_name"/>
+
+        <button label="Lookup Google Maps">
+          <string name="visible" literal="">true</string>
           <function name="onclick">
             <block>
-              <localstorage name="meteo_places" write_from="places" />
+              <object name="geocode"/>
+              <db.call module="meteo_api" method="geocode" returns="geocode">
+                <string name="address">place.place_name</string>
+              </db.call>
+              <if>
+                <condition>geocode.ok</condition>
+                <then>
+                  <set name="place.place_lat">geocode.latitude</set>
+                  <set name="place.place_lon">geocode.longitude</set>
+                </then>
+                <else>
+                  <alert>
+                    <message>format("Address not found")</message>
+                  </alert>
+                </else>
+              </if>
+            </block>
+          </function>
+        </button>
+
+        <input label="Latitude" model="place.place_lat"/>
+        <input label="Longitude" model="place.place_lon"/>
+
+        <button label="Cancel" icon="cancel" if-dirty="">
+          <function name="onclick">
+            <block>
+              <set name="valid">true</set>
+
               <closedialog/>
             </block>
           </function>
         </button>
+
+        <button label="Save" icon="save" if-dirty="">
+          <function name="onclick">
+            <block>
+              <call function="save_place">
+                <object name="place">place</object>
+              </call>
+
+              <closedialog/>
+            </block>
+          </function>
+        </button>
+
       </dialog>
 
       <showdialog>
@@ -91,38 +173,35 @@
     </block>
   </function>
 
+  <!-- function query_places -->
+
   <function name="query_places" returns="result: object">
     <block>
       <localstorage name="meteo_places" read_into="places" />
+      <call function="update_places_weather"/>
+
       <set name="result">
         <object name="places">places</object>
         <object name="meta">
           <string name="places">meta("Place")</string>
         </object>
       </set>
-      <print>"meta(Place)=" + meta("Place")</print>
+
     </block>
   </function>
+
+  <!-- function add_place -->
 
   <function name="add_place" returns="result: boolean">
     <block>
       <set name="result">true</set>
 
       <object name="place" type="Place"/>
-      <number name="last_id">0</number>
-      <if>
-        <condition>places.length()</condition>
-        <then>
-          <set name="last_id">places.at(places.length() - 1).place_id</set>
-        </then>
-      </if>
-      <set name="place.place_id">last_id + 1</set>
-      <call object="places" method="push">
-        <object>place</object>
-      </call>
+
       <call function="edit_place">
         <object name="place">place</object>
       </call>
+
     </block>
   </function>
 
@@ -142,6 +221,8 @@
     </block>
   </function>
 
+  <!-- function update_places_weather -->
+
   <function name="update_places_weather" returns="result: boolean">
     <block>
       <set name="result">true</set>
@@ -152,10 +233,6 @@
 
       <set name="last_update">now()</set>
 
-      <sendevent>
-        <string name="component">"main_tableview"</string>
-        <string name="event">"reload"</string>
-      </sendevent>
     </block>
   </function>
 
@@ -167,21 +244,21 @@
         <object name="tablecommands">
           <!-- command name;icon;label;function called -->
           <string>"new;add;add;add_place;__reload__"</string>
-          <string>"refresh;refresh;refresh;update_places_weather;__reload__"</string>
+          <string>"refresh;refresh;refresh;__reload__"</string>
         </object>
         <object name="commands">
-          <string>"edit;edit;edit;edit_place;"</string>
+          <string>"edit;edit;edit;edit_place;__reload__"</string>
           <string>"delete;delete_outline;delete;delete_place;__reload__"</string>
         </object>
         <object name="columns">
           <string>"place_icon_meta;Icon;qimg"</string>
           <string>"place_temp;Temp"</string>
-          <string>"place_name;Name"</string>
+          <string>"place_name;Address"</string>
           <string>"place_description;Weather"</string>
           <string>"place_id;ID"</string>
           <string>"place_location_name;Location"</string>
           <string>"place_last_update;Updated"</string>
-        </object> 
+        </object>
       </object>
 
       <form name="form" title="Weather">
@@ -189,17 +266,13 @@
         <input model="last_update">
           <string name="visible" literal="">false</string>
         </input>
-       
+
         <tableview model="tsoptions" name="main_tableview" title="Lieux" template="expand"/>
       </form>
 
-      <parallel>
-        <showform>
-          <form>form</form>
-        </showform>
-        <call function="update_places_weather"/>
-      </parallel>
-
+      <showform>
+        <form>form</form>
+      </showform>
 
     </block>
   </function>
