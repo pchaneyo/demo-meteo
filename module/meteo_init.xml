@@ -1,14 +1,14 @@
 <?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <module> 
     <db.table name="place">
-        <number name="place_lat" type="numeric" primary=""/>
-        <number name="place_lon" type="numeric" primary=""/>
-        <string name="place_name" type="varchar(255)" />
-        <datetime name="place_last_update" type="timestamp with time zone"/>
-        <string name="place_description" type="varchar(1024)"/>
-        <object name="place_icon_meta" type="jsonb"/>
-        <string name="place_temp" type="varchar(255)"/>
-        <string name="place_location_name" type="varchar(255)"/>
+        <number name="place_lat" dbtype="numeric" primary=""/>
+        <number name="place_lon" dbtype="numeric" primary=""/>
+        <string name="place_name" dbtype="varchar(255)" />
+        <datetime name="place_last_update" dbtype="timestamp with time zone"/>
+        <string name="place_description" dbtype="varchar(1024)"/>
+        <object name="place_icon_meta" dbtype="jsonb"/>
+        <string name="place_temp" dbtype="varchar(255)"/>
+        <string name="place_location_name" dbtype="varchar(255)"/>
     </db.table>
 
     <function name="insert_place" returns="result: object">
