@@ -1,15 +1,15 @@
 <?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" ?>
 <module>
   <type name="Place">
-    <number name="place_id"/>
-    <string name="place_name"/>
-    <number name="place_lat"/>
-    <number name="place_lon"/>
-    <datetime name="place_last_update"/>
-    <string name="place_description"/>
-    <object type="object" name="place_icon_meta"/>
-    <string name="place_temp"/>
-    <string name="place_location_name"/>
+    <number name="place_id" label="ID"/>
+    <string name="place_name" label="Address"/>
+    <number name="place_lat" label="Latitude"/>
+    <number name="place_lon" label="Longitude"/>
+    <datetime name="place_last_update" label="Updated"/>
+    <string name="place_description" label="Weather"/>
+    <object type="object" name="place_icon_meta" label="Icon" component="qimg"/>
+    <string name="place_temp" label="Temp"/>
+    <string name="place_location_name" label="Location"/>
     <key name="place_id"/>
   </type>
 
@@ -238,7 +238,7 @@
 
   <function name="manage_place">
     <block>
-      <object name="tsoptions">
+      <object name="tsoptions" type="TableOptions">
         <function name="query">query_places</function>
         <string name="entity">"places"</string>
         <object name="tablecommands">
@@ -251,6 +251,7 @@
           <string>"delete;delete_outline;delete;delete_place;__reload__"</string>
         </object>
         <object name="columns">
+          <!-- field name;column label;component type;width in pixels-->
           <string>"place_icon_meta;Icon;qimg"</string>
           <string>"place_temp;Temp"</string>
           <string>"place_name;Address"</string>
@@ -267,7 +268,7 @@
           <string name="visible" literal="">false</string>
         </input>
 
-        <tableview model="tsoptions" name="main_tableview" title="Lieux" template="expand"/>
+        <tableview model="tsoptions" name="main_tableview" title="Lieux" template="dialog"/>
       </form>
 
       <showform>
