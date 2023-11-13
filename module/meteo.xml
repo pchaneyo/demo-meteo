@@ -99,12 +99,12 @@
             <object name="tsoptions">
                 <function name="query">query_place</function>
                 <string name="entity">"place"</string>
-                <object name="columns">
-                    <string>"place_icon_meta;Icone;qimg"</string>
-                    <string>"place_temp;Tempé."</string>
-                    <string>"place_name;Lieu"</string>
-                    <string>"place_description;Temps"</string>
-                </object>
+                <type name="columns">
+                    <object name="place_icon_meta" label="Icone" component="qimg"/>
+                    <string name="place_temp" label="Tempé."/>
+                    <string name="place_name" label="Lieu"/>
+                    <string name="place_description" label="Temps"/>
+                </type>
             </object>
 
             <form name="form">

@@ -250,16 +250,16 @@
           <string>"edit;edit;edit;edit_place;__reload__"</string>
           <string>"delete;delete_outline;delete;delete_place;__reload__"</string>
         </object>
-        <object name="columns">
-          <!-- field name;column label;component type;width in pixels-->
-          <string>"place_icon_meta;Icon;qimg"</string>
-          <string>"place_temp;Temp"</string>
-          <string>"place_name;Address"</string>
-          <string>"place_description;Weather"</string>
-          <string>"place_id;ID"</string>
-          <string>"place_location_name;Location"</string>
-          <string>"place_last_update;Updated"</string>
-        </object>
+        <!-- field name;column label;component type;width in pixels-->
+        <type name="columns">
+          <string name="place_icon_meta" label="Icon" component="qimg"/>
+          <string name="place_temp" label="Temp"/>
+          <string name="place_name" label="Address"/>
+          <string name="place_description" label="Weather"/>
+          <string name="place_id" label="ID"/>
+          <string name="place_location_name" label="Location"/>
+          <string name="place_last_update" label="Updated"/>
+        </type>
       </object>
 
       <form name="form" title="Weather">
