@@ -1,15 +1,15 @@
 <?xml-model href="https://www.cyklang.net/schema/cyklang.xsd" ?>
 <module>
   <type name="Place">
-    <number name="place_id" label="ID"/>
+    <object name="place_icon_meta" label="Icon" component="qimg"/> 
+    <string name="place_temp" label="Temp"/>
     <string name="place_name" label="Address"/>
+    <string name="place_description" label="Weather"/>
+    <string name="place_location_name" label="Location"/>
+    <datetime name="place_last_update" label="Updated"/>
     <number name="place_lat" label="Latitude"/>
     <number name="place_lon" label="Longitude"/>
-    <datetime name="place_last_update" label="Updated"/>
-    <string name="place_description" label="Weather"/>
-    <object type="object" name="place_icon_meta" label="Icon" component="qimg"/>
-    <string name="place_temp" label="Temp"/>
-    <string name="place_location_name" label="Location"/>
+    <number name="place_id" label="ID"/>
     <key name="place_id"/>
   </type>
 
@@ -238,29 +238,20 @@
 
   <function name="manage_place">
     <block>
-      <object name="tsoptions" type="TableOptions">
+      <table_model name="tsoptions">
         <function name="query">query_places</function>
         <string name="entity">"places"</string>
-        <object name="tablecommands">
+        <menu_object name="tablecommands">
           <!-- command name;icon;label;function called -->
-          <string>"new;add;add;add_place;__reload__"</string>
-          <string>"refresh;refresh;refresh;__reload__"</string>
-        </object>
-        <object name="commands">
-          <string>"edit;edit;edit;edit_place;__reload__"</string>
-          <string>"delete;delete_outline;delete;delete_place;__reload__"</string>
-        </object>
+          <command name="new" icon="add" label="add" action="add_place"/>
+          <command name="refresh" icon="refresh" label="refresh" action="refresh"/>
+        </menu_object>
+        <menu_object name="commands">
+          <command name="edit" icon="edit" label="edit" action="edit_place"/>
+          <command name="delete" icon="delete_outline" label="delete" action="delete_place"/>
+        </menu_object>
         <!-- field name;column label;component type;width in pixels-->
-        <type name="columns">
-          <string name="place_icon_meta" label="Icon" component="qimg"/>
-          <string name="place_temp" label="Temp"/>
-          <string name="place_name" label="Address"/>
-          <string name="place_description" label="Weather"/>
-          <string name="place_id" label="ID"/>
-          <string name="place_location_name" label="Location"/>
-          <string name="place_last_update" label="Updated"/>
-        </type>
-      </object>
+      </table_model>
 
       <form name="form" title="Weather">
         <string name="comp_subtitle" literal="">last_update</string>
@@ -268,7 +259,7 @@
           <string name="visible" literal="">false</string>
         </input>
 
-        <tableview model="tsoptions" name="main_tableview" title="Lieux" template="dialog"/>
+        <tableview model="tsoptions" name="main_tableview" title="Lieux" template="expand"/>
       </form>
 
       <showform>

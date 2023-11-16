@@ -70,11 +70,12 @@
                 <condition><![CDATA[ result_q_place.resultset.length() > 0 ]]></condition>
                 <then>
                     <object name="record">result_q_place.resultset.at(0)</object>
-                    <datetime name="validity">
+                    <!-- <datetime name="validity">
                         datetimeadd("minute", 15, record.place_last_update)
-                    </datetime>
-                    <if>
-                        <condition><![CDATA[ validity > now()]]></condition>
+                    </datetime> -->
+                    <print>"record.place_last_update: " + record.place_last_update</print>
+                    <if> 
+                        <condition><![CDATA[ record.place_last_update && datetimeadd("minute", 15, record.place_last_update) > now()]]></condition>
                         <then>
                             <set name="provider_call_required">false</set>
 

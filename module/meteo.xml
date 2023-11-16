@@ -8,15 +8,6 @@
 
     <function name="__init__">
         <block>
-            <!-- setMenu-->
-            <setmenu>
-                <object>
-                    <!-- title;icon;caption;path -->
-                    <!-- <string literal="">Weat\her;sunny;Current Weather;/run/meteo</string> -->
-                    <!-- <string literal="">Places;public;Places management;/run/meteo</string> -->
-                    <!-- <string literal="">Current weather;sunny;Current weather;/run/meteo/current</string> -->
-                </object>
-            </setmenu>
             <set name="m_place" module="meteo_place"/>
             <!-- <set name="m_current" module="meteo_current"/> -->
         </block>
