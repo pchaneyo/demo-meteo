@@ -183,7 +183,7 @@
       <set name="result">
         <object name="places">places</object>
         <object name="meta">
-          <string name="places">meta("Place")</string>
+          <object name="places">Place</object>
         </object>
       </set>
 

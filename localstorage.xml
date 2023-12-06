@@ -1,0 +1,54 @@
+<object>
+    <object>
+        <number name="place_id">1</number>
+        <string name="place_name" literal="">Arrondissement de Saint-Denis</string>
+        <number name="place_lat">-20.9208968</number>
+        <number name="place_lon">55.4918998</number>
+        <datetime name="place_last_update">datetime(&quot;Tue Dec 05 2023 12:29:31 GMT+0400 (heure de La Réunion)&quot;)</datetime>
+        <string name="place_description" literal="">peu nuageux</string>
+        <object name="place_icon_meta">
+            <string name="uri" literal="">https://openweathermap.org/img/w/02d.png</string>
+        </object>
+        <string name="place_temp" literal="">27.47°C</string>
+        <string name="place_location_name" literal="">Arrondissement de Saint-Denis</string>
+    </object>
+    <object>
+        <number name="place_id">2</number>
+        <string name="place_name" literal="">92 av d&apos;italie paris 13</string>
+        <number name="place_lat">48.8254846</number>
+        <number name="place_lon">2.3566376</number>
+        <datetime name="place_last_update">datetime(&quot;Tue Dec 05 2023 12:29:32 GMT+0400 (heure de La Réunion)&quot;)</datetime>
+        <string name="place_description" literal="">nuageux</string>
+        <object name="place_icon_meta">
+            <string name="uri" literal="">https://openweathermap.org/img/w/04d.png</string>
+        </object>
+        <string name="place_temp" literal="">6.61°C</string>
+        <string name="place_location_name" literal="">Le Kremlin-Bicêtre</string>
+    </object>
+    <object>
+        <number name="place_id">3</number>
+        <string name="place_name" literal="">dalian chine</string>
+        <number name="place_lat">38.9139899</number>
+        <number name="place_lon">121.6147</number>
+        <datetime name="place_last_update">datetime(&quot;Tue Dec 05 2023 12:29:32 GMT+0400 (heure de La Réunion)&quot;)</datetime>
+        <string name="place_description" literal="">brume sèche</string>
+        <object name="place_icon_meta">
+            <string name="uri" literal="">https://openweathermap.org/img/w/50d.png</string>
+        </object>
+        <string name="place_temp" literal="">9.94°C</string>
+        <string name="place_location_name" literal="">Dalian</string>
+    </object>
+    <object>
+        <object name="place_icon_meta">
+            <string name="uri" literal="">https://openweathermap.org/img/w/03d.png</string>
+        </object>
+        <string name="place_temp" literal="">27.18°C</string>
+        <string name="place_name" literal="">résidence ylang ylang cambaie saint-paul réunion</string>
+        <string name="place_description" literal="">partiellement nuageux</string>
+        <string name="place_location_name" literal="">Le Port</string>
+        <datetime name="place_last_update">datetime(&quot;Tue Dec 05 2023 12:29:33 GMT+0400 (heure de La Réunion)&quot;)</datetime>
+        <number name="place_lat">-20.974767</number>
+        <number name="place_lon">55.304368</number>
+        <number name="place_id">4</number>
+    </object>
+</object>

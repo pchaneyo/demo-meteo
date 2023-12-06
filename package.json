@@ -1,6 +1,6 @@
 {
-  "name": "cyk-meteo",
-  "version": "0.0.0",
+  "name": "@cyklang/demo-weather",
+  "version": "0.1.0",
   "scripts": {
     "start": "cyk start",
     "stop": "cyk stop",
