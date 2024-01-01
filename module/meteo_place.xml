@@ -244,7 +244,7 @@
         <menu_object name="tablecommands">
           <!-- command name;icon;label;function called -->
           <command name="new" icon="add" label="add" action="add_place"/>
-          <command name="refresh" icon="refresh" label="refresh" action="refresh"/>
+          <command name="refresh" icon="refresh" label="refresh" action="__reload__"/>
         </menu_object>
         <menu_object name="commands">
           <command name="edit" icon="edit" label="edit" action="edit_place"/>

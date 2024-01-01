@@ -30,7 +30,7 @@
                             <number name="place_lat">place_lat</number>
                         </object>
                     </db.insert>
-                    <print>"Place added: " + result.place_name + ", ID: " + result.place_id</print>
+                    <print>"Place added: " + result.place_name </print>
                 </then>
             </if>
         </block>
