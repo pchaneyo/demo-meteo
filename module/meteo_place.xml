@@ -85,15 +85,15 @@
       <dialog name="place_dialog">
 
         <input label="ID" model="place.place_id" readonly="true">
-          <string name="visible" literal="">place.place_id !== undefined</string>
+          <boolean name="visible">place.place_id !== undefined</boolean>
         </input>
 
         <!-- button Add current location -->
 
         <button label="Add current location">
-          <string name="visible" literal="">
+          <boolean name="visible">
             place.place_id == undefined
-          </string>
+          </boolean>
           <function name="onclick">
             <block>
               <object name="location"/>
@@ -117,7 +117,7 @@
         <input label="Address" model="place.place_name"/>
 
         <button label="Lookup Google Maps">
-          <string name="visible" literal="">true</string>
+          <boolean name="visible">true</boolean>
           <function name="onclick">
             <block>
               <object name="geocode"/>
@@ -254,9 +254,9 @@
       </table_model>
 
       <form name="form" title="Weather">
-        <string name="comp_subtitle" literal="">last_update</string>
+        <string name="subtitle">last_update</string>
         <input model="last_update">
-          <string name="visible" literal="">false</string>
+          <boolean name="visible">false</boolean>
         </input>
 
         <tableview model="tsoptions" name="main_tableview" title="Lieux" template="expand"/>
