@@ -21,6 +21,7 @@
         <key>Lookup Google Maps</key><value>Rechercher dans Google Maps</value>
         <key>Cancel</key><value>Annuler</value>
         <key>Save</key><value>Enregistrer</value>
+        <key>Delete place {0} ?</key><value>Supprimer le lieu {0}</value>
     </map>
 </module>
         

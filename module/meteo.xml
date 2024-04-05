@@ -100,9 +100,9 @@
 
             <form name="form">
                 <input model="last_update" label="last_update">
-                    <string name="visible" literal="">false</string>
+                    <boolean name="visible">false</boolean>
                 </input>
-                <tableview model="tsoptions" title="Lieux" template="expand"/>
+                <tableview model="tsoptions" title="Lieux"/>
             </form>
 
             <showform>

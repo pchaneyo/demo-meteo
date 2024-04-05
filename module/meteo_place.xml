@@ -183,7 +183,7 @@
       <set name="result">
         <object name="places">places</object>
         <object name="meta">
-          <object name="places">Place</object>
+          <type name="places">Place</type>
         </object>
       </set>
 
@@ -248,7 +248,7 @@
         </menu_object>
         <menu_object name="commands">
           <command name="edit" icon="edit" label="edit" action="edit_place"/>
-          <command name="delete" icon="delete_outline" label="delete" action="delete_place"/>
+          <command name="delete" icon="delete_outline" label="delete" action="delete_place" description="Delete place"/>
         </menu_object>
         <!-- field name;column label;component type;width in pixels-->
       </table_model>
@@ -259,7 +259,7 @@
           <boolean name="visible">false</boolean>
         </input>
 
-        <tableview model="tsoptions" name="main_tableview" title="Lieux" template="expand"/>
+        <tableview model="tsoptions" name="main_tableview" title="Lieux"/>
       </form>
 
       <showform>

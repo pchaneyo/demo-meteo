@@ -21,5 +21,6 @@
         <key>Lookup Google Maps</key><value>在Google地图中搜索</value>
         <key>Cancel</key><value>取消</value>
         <key>Save</key><value>保存</value>
+        <key>Delete place {0} ?</key><value>删除地点 {0}</value>
     </map>
 </module>
